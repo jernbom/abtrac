@@ -1,0 +1,95 @@
+---
+title: "Clustering of antibody trajectories using abtrac"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{abtrac_vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(abtrac)
+```
+
+
+## Example trajectories
+
+Example trajectories are provided in `abtrac::trajectories`.
+
+```{r}
+trajectories <- abtrac::trajectories
+```
+
+`trajectory`: One antibody measured in one sample.
+`t`: Timepoint, centered on the timepoint of interest (0), e.g., seroconversion.
+`fc`: Fold change relative to baseline, `t==-1`.
+
+```{r}
+head(trajectories)
+```
+
+
+## Distance matrix
+
+The distance matrix is computed using `ab_tr_dist()`.
+
+```{r}
+dist_mat <- ab_tr_dist(trajectories = trajectories)
+```
+
+
+## Clustering
+
+Clustering is performed using the distance matrix. The range of desired number of clusters `ks` is selected. In the companion paper, the options `variant = "faster"` and `nstart = 10` were forwarded to `cluster::pam()`.
+
+```{r}
+pam_objects <- ab_tr_clust(dist_mat = dist_mat, ks = 4:10, verbose = FALSE, variant = "faster", nstart = 10)
+```
+
+
+```{r}
+head(pam_objects)
+```
+
+
+## Selection of k - silhouette plot
+
+The optimal cluster number `k` is determined using the silhouette method (here 7).
+
+```{r, fig.width=7}
+silhouette_plot(pam_objects = pam_objects)
+```
+
+
+## Model selection
+
+Clusters are retrieved from the `pam` object and added to the original tibble of `trajectories`.
+
+```{r}
+trajectories_clust <- extract_clusters(trajectories = trajectories, pam_objects = pam_objects, sel_k = 7)
+```
+
+
+```{r}
+head(trajectories_clust)
+```
+
+
+## Cluster visualization
+
+The clusters are visualized using lineplots. Here, cluster 2 can be described as "delayed new-onset antibodies", cluster 5 as "stable new-onset antibodies", and cluster 7 as "transient new-onset antibodies".
+
+```{r, fig.width=7, fig.height=7}
+cluster_lineplot(trajectories_clust, ncol = 4)
+```
+
+## Notes
+
+The expected install and run time for the package and vignette is less than 10 minutes on a "normal" laptop.
