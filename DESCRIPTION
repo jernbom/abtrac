@@ -3,7 +3,7 @@ Package: abtrac
 Title: AntiBody TRAjectory Clustering
 Version: 0.1.0
 Authors@R:
-    person(c("August", "F."), "Jernbom", , "august.jernbom@scilifelab.se", role = c("aut", "cre"),
+    person(c("August", "F."), "Jernbom", , "51540906+jernbom@users.noreply.github.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-7773-1851"))
 License: MIT + file LICENSE
 Description: `abtrac` is a small companion package to our paper Prevalent and persistent 
@@ -30,3 +30,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/jernbom/abtrac
+BugReports: https://github.com/jernbom/abtrac/issues
