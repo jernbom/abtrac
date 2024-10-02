@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
 
 # abtrac
 
-<!-- badges: start -->
+<!-- badges: start -->.
+[![DOI](https://zenodo.org/badge/832050309.svg)](https://doi.org/10.5281/zenodo.13882631)
 <!-- badges: end -->
 
 `abtrac` is a small companion package to our paper Prevalent and persistent new-onset autoantibodies in mild to severe COVID-19[^paper]. The package demonstrates the clustering approach taken for classification of new-onset autoantibody trajectories. For details on the rationale and use case, see the paper.
